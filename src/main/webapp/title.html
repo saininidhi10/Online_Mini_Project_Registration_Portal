@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html ng-app="myApp" ng-controller="mycon">
+    <head>
+        <title>ADMIN PAGE</title>	
+        <link rel="stylesheet" type="text/css" href="global.css"/>
+        <meta name="viewport" content="width=device-width,initial-scale:1.0" />
+    </head>
+    <body>
+        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script><script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+        <div id="header">
+            <div class="head"><a href="#">WELCOME ADMIN</a></div>
+        </div>	
+
+        <a class="mobile" href="#"></a>
+
+
+
+        <div id="container">
+            <div class="sidebar">
+                <ul id="nav">
+                    <li><a href="unreg.html">LIST OF UNREGISTERED STUDENTS</a></li>
+                    <li><a  href="allot.html">ALLOT GUIDES & DOMAINS</a></li>
+                    <li><a href="alloted.html">LIST OF ALLOTED GROUPS</a></li>
+                    <li><a class="selected" href="title.html">LIST OF TITLES REGISTERED</a></li>
+                </ul>
+
+            </div>
+            <div class="content">
+
+                <div id="box">
+                    <div class="box-top">LIST OF TITLES REGISTERED</div>
+                    <div class="box-panel">
+                        <h4 style="float: left;">YEAR:<select style="" id="year">
+                                <option>--SELECT YEAR--</option>
+                                <option>2015</option>
+
+
+                            </select> </h4>
+                        <input style="font-size: 15px; margin-left: 10px ;float:left;" type="button" ng-click="getyear()" value="OK" />
+                        <h4 style="float:left;padding-left: 50px;">CLASS:
+                            <select style="" id="class">
+                                <option value="">--SELECT CLASS--</option>
+                                <option>SECOND YEAR</option>
+                                <option>THIRD YEAR</option>
+
+
+                            </select> </h4>
+                        <input style="font-size: 15px; margin-left: 10px" type="button" ng-click="getclass()" value="OK" />
+                        <table border="1" style="margin-top: 50px;" id="mytable">
+                            <thead>
+                                <tr>
+                                    <th>SR NO.</th>
+                                    <th>PROJECT TITLE</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="t in titles">
+                                    <td style="margin-left: 10px;padding-left: 25px;">{{t.srno}}
+                                    </td>
+                                    <td style="margin-left: 10px;">
+                                        <ul>
+                                            <li style="margin-left: 10px;margin-right: 20px;">{{t.title}}</li>
+                                            
+                                        </ul>
+                                    </td>
+                                    
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+        <script>
+                    var app = angular.module("myApp", []);
+                    app.controller("mycon", function ($scope, $http) {
+                        var year,class1;
+                        var x="check";
+                    var url = 'webresources/userauth/'+x;
+                    ////alert(url);
+                    $http.get(url).success(function (response){
+                        ////alert(response);
+                        if  (response === "True")
+                        {
+                             //alert("Authentic"); 
+                         }
+                        else 
+                        {
+                            window.location='/MiniProjectReg/index.html';
+                        }
+                    }).error(function (response) {
+                        //alert("Resource not found");
+                    });
+                       $scope.getclass = function () {
+                            var e = document.getElementById("year");
+                            year = e.options[e.selectedIndex].value;
+                            var f = document.getElementById("class");
+                            class1 = f.options[f.selectedIndex].value;
+                            var url1 = 'webresources/getcls/' + year + '/' + class1;
+                            //alert(url1);
+                            $scope.orderByAttribute = '';
+                            $http.get(url1).
+                                    success(function (data, status, headers, config) {
+                                        ////alert(data);
+                                        //alert(data);
+                                        console.log(JSON.stringify(data));
+                                        $scope.titles = data;
+
+                                    }).
+                                    error(function (data, status, headers, config) {
+                                        //alert("resource not found");
+                                    });
+
+
+                        };
+
+                    });
+
+        </script>
+    </body>
+
+
+
+</html>
+

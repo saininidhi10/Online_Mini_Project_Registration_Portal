@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html ng-app="myApp" ng-controller="mycon">
+    <head>
+        <title>ADMIN PAGE</title>	
+        <link rel="stylesheet" type="text/css" href="global.css"/>
+        <meta name="viewport" content="width=device-width,initial-scale:1.0" />
+    </head>
+    <body>
+        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script><script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+        <div id="header">
+            <div class="head"><a href="#">WELCOME ADMIN</a></div>
+        </div>	
+
+        <a class="mobile" href="#"></a>
+
+
+
+        <div id="container">
+            <div class="sidebar">
+                <ul id="nav">
+                    <li><a href="adminpage.html">HOME</a></li>
+                    <li><a href="unreg.html">LIST OF UNREGISTERED STUDENTS</a></li>
+                    <li><a class="selected" href="allot.html">ALLOT GUIDES & DOMAINS</a></li>
+                    <li><a href="alloted.html">LIST OF ALLOTED GROUPS</a></li>
+                     <li><a href="title.html">LIST OF TITLES REGISTERED</a></li>
+                </ul>
+
+            </div>
+            <div class="content">
+
+                <div id="box">
+                    <div class="box-top">ALLOT GUIDES & DOMAINS</div>
+                    <div class="box-panel">
+                        <h4 style="float: left;">YEAR:<select style="" id="year">
+                                <option>--SELECT YEAR--</option>
+                                <option>SECOND YEAR</option>
+                                <option>THIRD YEAR</option>
+
+                            </select> </h4>
+                        <input style="font-size: 15px; margin-left: 10px ;float:left;" type="button" ng-click="getdiv()" value="OK" />
+                        <h4 style="float:left;padding-left: 50px;">DIVISION:
+                            <select style="" id="div" ng-model="div" ng-options="division.div for division in divisions">
+                                <option value="">--SELECT DIVISION--</option>
+
+                            </select> </h4>
+                        <input style="font-size: 15px; margin-left: 10px" type="button" ng-click="search()" value="OK" />
+                        <table border="1" style="margin-top: 50px;" id="mytable" >
+                            <thead>
+                                <tr>
+                                    <th>GROUP ID</th>
+                                    <th>GR NO.</th>
+                                    <th>ROLL NO.</th>
+                                    <th>NAME</th>
+                                    <th>DOMAIN PREFERENCE</th>
+                                    <th>ALLOT DOMAIN</th>
+                                    <th>ALLOT GUIDE</th>
+                                    <th>APPLY</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="group in groups">
+                                    <td style="margin-left: 10px;padding-left: 25px;">{{group.grpid}}
+                                    </td>
+                                    <td style="margin-left: 10px;">
+                                        <ul>
+                                            <li style="margin-left: 10px;margin-right: 20px;">{{group.grno1}}</li>
+                                            <li style="margin-left: 10px;margin-right: 20px;">{{group.grno2}}</li>
+                                            <li style="margin-left: 10px;margin-right: 20px;">{{group.grno3}}</li>
+                                            <li style="margin-left: 10px;margin-right: 20px;">{{group.grno4}}</li>
+                                            <li style="margin-left: 10px;margin-right: 20px;">{{group.grno5}}</li>
+                                        </ul>
+                                    </td>
+                                    <td style="margin-left: 10px;"><ul>
+                                            <li style="margin-left: 10px;margin-right: 10px;">{{group.rollno1}}</li>
+                                            <li style="margin-left: 10px;margin-right: 10px;">{{group.rollno2}}</li>
+                                            <li style="margin-left: 10px;margin-right: 10px;">{{group.rollno3}}</li>
+                                            <li style="margin-left: 10px;margin-right: 10px;">{{group.rollno4}}</li>
+                                            <li style="margin-left: 10px;margin-right: 10px;">{{group.rollno5}}</li>
+                                        </ul>
+                                    </td>
+                                    <td style="margin-left: 10px;"><ul>
+                                            <li style="margin-left: 10px;margin-right: 10px;">{{group.name1}}</li>
+                                            <li style="margin-left: 10px;margin-right: 10px;">{{group.name2}}</li>
+                                            <li style="margin-left: 10px;margin-right: 10px;">{{group.name3}}</li>
+                                            <li style="margin-left: 10px;margin-right: 10px;">{{group.name4}}</li>
+                                            <li style="margin-left: 10px;margin-right: 10px;">{{group.name5}}</li>
+                                        </ul>
+                                    </td>
+                                    <td style="margin-left: 10px;"><ul>
+                                            <li style="margin-left: 10px;margin-right: 10px;">{{group.domain1}}</li>
+                                            <li style="margin-left: 10px;margin-right: 10px;">{{group.domain2}}</li>
+                                            <li style="margin-left: 10px;margin-right: 10px;">{{group.domain3}}</li>
+                                        </ul>
+                                    </td>
+                                    <td>
+                                        <select style="" id="domain" ng-model="domain" ng-options="domain.sub for domain in domains">
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select style="" id="guide" ng-model="div" ng-options="g.guide for g in guides">
+                                        </select>
+                                    </td>
+                                    <td ><input style="font-size: 15px; margin-left: 10px ;float:left;" type="button" ng-click="apply($index)" value="APPLY" /></td>
+
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+        <script>
+                    var app = angular.module("myApp", []);
+                    app.controller("mycon", function ($scope, $http) {
+                        var year;
+                        var x="check";
+                    var url = 'webresources/userauth/'+x;
+                    ////alert()(url);
+                    $http.get(url).success(function (response){
+                        ////alert()(response);
+                        if  (response === "True")
+                        {
+                             ////alert()("Authentic"); 
+                         }
+                        else 
+                        {
+                            window.location='/MiniProjectReg/index.html';
+                        }
+                    }).error(function (response) {
+                        //alert()("Resource not found");
+                    });
+                        $scope.getdiv = function () {
+                            var e = document.getElementById("year");
+                            year = e.options[e.selectedIndex].value;
+                            ////alert()(year);
+                            var url1 = 'webresources/getdiv/' + year;
+                            ////alert()(url1);
+                            $scope.orderByAttribute = '';
+                            $http.get(url1).
+                                    success(function (data, status, headers, config)/* ok */ {
+                                        ////alert()(data);
+                                        ////alert()(data);
+                                        console.log(JSON.stringify(data));
+                                        $scope.divisions = data;
+
+                                    }).
+                                    error(function (data, status, headers, config) {
+                                        //alert()("resource not found");
+                                    });
+                        };
+                        $scope.search = function () {
+                            var div = document.getElementById('div').value;
+                            var divi = $scope.divisions[div];
+                            var division = divi.div;
+                            var mod = divi.mod;
+                            //alert()(division);
+                            var url1 = 'webresources/getdata/' + division + '/' + year;
+                            //alert()(url1);
+                            $scope.orderByAttribute = '';
+                            $http.get(url1).
+                                    success(function (data, status, headers, config) {
+                                        ////alert()(data);
+                                        //alert()(data);
+                                        console.log(JSON.stringify(data));
+                                        $scope.guides = data;
+
+                                    }).
+                                    error(function (data, status, headers, config) {
+                                        //alert()("resource not found");
+                                    });
+
+                            var url2 = 'webresources/getgroups/' + division + '/' + year;
+                            //alert()(url2);
+                            $scope.orderByAttribute = '';
+                            $http.get(url2).
+                                    success(function (data, status, headers, config) {
+                                        ////alert()(data);
+                                        //alert()(data);
+                                        console.log(JSON.stringify(data));
+                                        $scope.groups = data;
+                                    }).
+                                    error(function (data, status, headers, config) {
+                                        //alert()("resource not found");
+                                    });
+                            var url2 = 'webresources/mydata1/' + mod;
+                            //alert()(url2);
+                            $http.get(url2).
+                                    success(function (data, status, headers, config) {
+                                        //alert()(data);
+                                        console.log(JSON.stringify(data));
+                                        $scope.domains = data;
+
+                                    }).
+                                    error(function (data, status, headers, config) {
+                                        //alert()("resource not found");
+                                    });
+                        };
+                        $scope.apply = function (index) {
+                            //alert("in apply");
+                            var row = index;
+                            //alert(row);
+                            var dom = document.getElementById('domain').value;
+                            var domsel = $scope.domains[dom];
+                            var domain = domsel.sub;
+                            //alert(domain);
+                            var g = document.getElementById('guide').value;
+                            var gsel = $scope.guides[g];
+                            var guide = gsel.guide;
+                            //alert(guide);
+                            var sel = $scope.groups[row];
+                            //alert(sel);
+                            var grp = sel.grpid;
+                            //alert(grp);
+                            var url = 'webresources/update/' + domain + '/' + guide + '/' + grp;
+                            //alert(url);
+                            $http.get(url).success(function (response) {
+                                alert(response);
+
+                            }).
+                                    error(function (data, status, headers, config) {
+                                        //alert()("resource not found");
+                                    });
+
+                        };
+
+                    });
+
+        </script>
+    </body>
+
+
+
+</html>
+

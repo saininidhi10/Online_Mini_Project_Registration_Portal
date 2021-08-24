@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myapp" ng-controller="mycon">
+    <head>
+        <meta charset="UTF-8">
+        <title>Update Password</title>
+        <style type="text/css">
+            h1{
+                text-align: center;
+                padding-top: 50px;
+            }
+        </style>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <meta name="description" content="" />
+        <meta name="keywords" content="" />
+        <script src="js/jquery.min.js"></script>
+        <script src="js/skel.min.js"></script>
+        <script src="js/skel-layers.min.js"></script>
+        <script src="js/init.js"></script>
+        <noscript>
+        <link rel="stylesheet" href="css/skel.css" />
+        <link rel="stylesheet" href="css/style.css" />
+        <link rel="stylesheet" href="css/style-xlarge.css" />
+        </noscript>
+    </head>
+    <body style="background-image:url(images/pic.jpg);background-size:  cover;">
+        <div style="background-image:url('images/pic.jpg');background-repeat:no-repeat;">
+        </div>
+
+        <h1><font color="white">Update Password</font></h1>
+        <br>
+        <br>
+        <br>
+        <br>
+        <div align="center">
+            <input type="password" placeholder="Current Password" ng-model="pass" style="background-color: white;width: 500px;color: black;">
+            <br>
+            <input type="password" placeholder="Re-Enter Current Password" ng-model="repass" style="background-color: white;width: 500px;color: black;">
+            <br>
+            <input type="password" placeholder="New Password" ng-model="newpass" style="background-color: white;width: 500px;color: black;">
+            <br><br><input type="button" class="button" value="Update" ng-click="update()">
+        </div>
+
+        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+
+        <script>
+                    function getURLParameter(name) {
+                        return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [, ""])[1].replace(/\+/g, '%20')) || null;
+                    }
+                    var grno = getURLParameter('reg');
+
+                    var myapp = angular.module('myapp', []);
+                    myapp.controller('mycon', function ($scope, $http) {
+                        var x = "check";
+                        var url = 'webresources/userauth/' + x;
+                        //alert(url);
+                        $http.get(url).success(function (response) {
+                            //alert(response);
+                            if (response === "True")
+                            {
+                                alert("Authentic");
+                            }
+                            else
+                            {
+                                window.location = '/MiniProjectReg/index.html';
+                            }
+                        }).error(function (response) {
+                            alert("Resource not found");
+                        });
+                        $scope.update = function () {
+                            if ($scope.pass == $scope.repass)
+                            {
+                                var url = 'webresources/myresource/' + $scope.pass + '/' + $scope.newpass + '/' + grno;
+                                //alert(url);
+                                $http.get(url).success(function (response) {
+                                    //alert(response);
+                                    if (response === "false")
+                                    {
+                                        alert("Enter Correct Password!");
+                                    }
+                                    else
+                                    {
+                                        alert("Password Updated Successfully!");
+                                        window.location = '/MiniProjectReg/firstpage.html?record=' + response;
+                                    }
+                                }).error(function (response) {
+                                    alert("Resource not found");
+                                });
+                            }
+                            else
+                                alert("Please re-enter the same password!")
+                        };
+                    });
+        </script>
+    </body>
+</html>

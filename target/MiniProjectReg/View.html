@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html ng-app="myApp" ng-controller="studentctrl">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <meta name="description" content="" />
+        <meta name="keywords" content="" />
+        <script src="js/jquery.min.js"></script>
+        <script src="js/skel.min.js"></script>
+        <script src="js/skel-layers.min.js"></script>
+        <script src="js/init.js"></script>
+        <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+        <script src="js/index.js"></script>
+        <noscript>
+        <link rel="stylesheet" type="text/css" href="css/style.css" />
+        </noscript>
+        <title>View</title>
+    </head>
+    <body background="images/pic.jpg">
+        <div style="background-image:url(pic.jpg);background-repeat:no-repeat;">
+        </div>
+
+        <header id="header">
+            <nav id="nav">
+                <ul>
+     
+                </ul>
+            </nav>
+        </header>
+        <h1> <font color="white">Registration Details</font></h1>
+        <br>
+        <br>
+        <br>
+        <section>
+            <div class="table-wrapper">
+                <table class="alt" border=5px>
+                    <thead>
+                        <tr text-align=center>
+                            <th>Group ID</th>
+                            <th>G.R. No.</th>
+                            <th>Roll No.</th>
+                            <th>Members</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td rowspan="5"><input type="text" id="grpid" value="" disabled></td>
+                            <td><input type="text" id="grno1" value="" disabled></td>
+                            <td><input type="text" id="rollno1" value="" disabled></td>
+                            <td><input type="text" id="stud1" value="" style="width: 500px;" disabled></td>
+
+                        </tr>
+                        <tr>
+                            <td><input type="text" id="grno2" value="" disabled></td>
+                            <td><input type="text" id="rollno2" value="" disabled></td>
+                            <td><input type="text" id="stud2" value="" disabled style="width: 500px;"></td>
+                        </tr>
+                        <tr>
+                            <td><input type="text" id="grno3" value="" disabled></td>
+                            <td><input type="text" id="rollno3" value="" disabled></td>
+                            <td><input type="text" id="stud3" value="" disabled style="width: 500px;"></td>
+                        </tr>
+                        <tr>
+                            <td><input type="text" id="grno4" value="" disabled></td>
+                            <td><input type="text" id="rollno4" value="" disabled></td>
+                            <td><input type="text" id="stud4" value="" disabled style="width: 500px;"></td>
+                        </tr>
+                        <tr>
+                            <td><input type="text" id="grno5" value="" disabled></td>
+                            <td><input type="text" id="rollno5" value="" disabled></td>
+                            <td><input type="text" id="stud5" value="" disabled style="width: 500px;"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+                <br>
+                <br>
+                <ul class="actions alt">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <li><a class="button">Domain Alloted</a></li>
+                    <li><input type="text" id="domain" value="" style="width: 500px;color: white;" disabled></li>
+                    <br>
+                    <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <li><a class="button">Guide Alloted</a></li>
+                    <li><input type="text" id="guide" value="" style="width: 500px;color: white;"disabled></li>
+                    <br>
+                    <br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <li><a class="button">Title</a></li>
+                    <li><input type="text" id="title" value="" style="width: 500px;color: white;"disabled></li>
+                </ul>
+            </div>
+        </section>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.5/angular.min.js"></script>
+        <script>
+              var app = angular.module("myApp", []);
+            app.controller("studentctrl", function ($scope, $http) {
+            function getURLParameter(name) {
+                return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [, ""])[1].replace(/\+/g, '%20')) || null;
+            }
+            var x="check";
+                    var url = 'webresources/userauth/'+x;
+                    //alert(url);
+                    $http.get(url).success(function (response){
+                        //alert(response);
+                        if  (response === "True")
+                        {
+                             //alert("Authentic"); 
+                         }
+                        else 
+                        {
+                            window.location='/MiniProjectReg/index.html';
+                        }
+                    }).error(function (response) {
+                        alert("Resource not found");
+                    });
+            var myvar = getURLParameter('record');
+            var user = myvar.split("_", 21);
+            alert(user);
+            var grpid=user[1] + "-" + user[2]+" " +user[0];
+            document.getElementById('grpid').value = grpid;
+            var grno1=user[3];
+            document.getElementById('grno1').value = grno1;
+            var grno2=user[4];
+            document.getElementById('grno2').value = grno2;
+            var grno3=user[5];
+            document.getElementById('grno3').value = grno3;
+            var grno4=user[6];
+            document.getElementById('grno4').value = grno4;
+            var grno5=user[7];
+            document.getElementById('grno5').value = grno5;
+            var rollno1=user[8];
+            document.getElementById('rollno1').value = rollno1;
+            var rollno2=user[9];
+            document.getElementById('rollno2').value = rollno2;
+            var rollno3=user[10];
+            document.getElementById('rollno3').value = rollno3;
+            var rollno4=user[11];
+            document.getElementById('rollno4').value = rollno4;
+            var rollno5=user[12];
+            document.getElementById('rollno5').value = rollno5;
+            var stud1=user[13];
+            document.getElementById('stud1').value = stud1;
+            var stud2=user[14];
+            document.getElementById('stud2').value = stud2;
+            var stud3=user[15];
+            document.getElementById('stud3').value = stud3;
+            var stud4=user[16];
+            document.getElementById('stud4').value = stud4;
+            var stud5=user[17];
+            document.getElementById('stud5').value = stud5;
+            var domain=user[18];
+            document.getElementById('domain').value = domain;
+            var guide=user[19];
+            document.getElementById('guide').value = guide;
+            var title=user[20];
+            document.getElementById('title').value = title;
+            });
+        </script>
+    </body>
+</html>

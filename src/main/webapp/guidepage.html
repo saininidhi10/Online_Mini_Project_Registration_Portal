@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html ng-app="myApp" ng-controller="mycon">
+    <head>
+        <title>GUIDE PAGE</title>	
+        <link rel="stylesheet" type="text/css" href="global2.css"/>
+        <meta name="viewport" content="width=device-width,initial-scale:1.0" />
+    </head>
+    <body>
+        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script><script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+        <div id="header">
+            <div class="head"><a href="#">WELCOME &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></div>
+
+            <input type="text" name="lname" id="lname" value="" disabled style="width:600px;font-size: 30px;margin-top: 13px;background-color: #0266C8; color: white;text-align:left;border: none;"/>
+
+        </div>
+
+
+
+
+        <div class="content">
+
+            <div id="box">
+
+                <div class="box-top">GROUPS<input style="font-size: 15px; margin-left: 10px" type="button" ng-click="logout()" value="LOGOUT" /><a href="updateguide.html" style="color: white;margin-left: 20px;"onclick="location.href = this.href + '?reg=' + myvar;
+                                    return false;">Update Password</a></div>
+                <div class="box-panel">
+                    <h4 style="float: center; margin-top: 30px;margin-left: 100px;">YEAR:<select style="" id="year">
+                            <option>--SELECT YEAR--</option>
+                            <option>SECOND YEAR</option>
+                            <option>THIRD YEAR</option>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <input style="font-size: 15px ;margin-left: 20px;;margin-top: 30px;" type="button" ng-click="getdiv()" value="OK" />
+
+                        </select> </h4>
+
+                    <table border="1" style="margin-top: 50px;" id="mytable">
+                        <thead>
+                            <tr>
+                                <th>GROUP ID</th>
+                                <th>GR NO.</th>
+                                <th>ROLL NO.</th>
+                                <th>NAME</th>
+                                <th>title</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="group in groups">
+                                <td style="margin-left: 10px;padding-left: 25px;">{{group.division + group.grpid}}
+                                </td>
+                                <td style="margin-left: 10px;">
+                                    <ul>
+                                        <li style="margin-left: 10px;margin-right: 20px;">{{group.grno1}}</li>
+                                        <li style="margin-left: 10px;margin-right: 20px;">{{group.grno2}}</li>
+                                        <li style="margin-left: 10px;margin-right: 20px;">{{group.grno3}}</li>
+                                        <li style="margin-left: 10px;margin-right: 20px;">{{group.grno4}}</li>
+                                        <li style="margin-left: 10px;margin-right: 20px;">{{group.grno5}}</li>
+                                    </ul>
+                                </td>
+                                <td style="margin-left: 10px;"><ul>
+                                        <li style="margin-left: 10px;margin-right: 10px;">{{group.rollno1}}</li>
+                                        <li style="margin-left: 10px;margin-right: 10px;">{{group.rollno2}}</li>
+                                        <li style="margin-left: 10px;margin-right: 10px;">{{group.rollno3}}</li>
+                                        <li style="margin-left: 10px;margin-right: 10px;">{{group.rollno4}}</li>
+                                        <li style="margin-left: 10px;margin-right: 10px;">{{group.rollno5}}</li>
+                                    </ul>
+                                </td>
+                                <td style="margin-left: 10px;"><ul>
+                                        <li style="margin-left: 10px;margin-right: 10px;">{{group.name1}}</li>
+                                        <li style="margin-left: 10px;margin-right: 10px;">{{group.name2}}</li>
+                                        <li style="margin-left: 10px;margin-right: 10px;">{{group.name3}}</li>
+                                        <li style="margin-left: 10px;margin-right: 10px;">{{group.name4}}</li>
+                                        <li style="margin-left: 10px;margin-right: 10px;">{{group.name5}}</li>
+                                    </ul>
+                                </td>
+                                <td style="margin-left: 10px;"><ul>
+                                        <li style="margin-left: 10px;margin-right: 10px;">{{group.title}}</li>
+
+                                    </ul>
+                                </td>
+
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+
+
+        </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.5/angular.min.js"></script>
+        <script>
+
+
+                                                    function getURLParameter(name) {
+                                                        return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [, ""])[1].replace(/\+/g, '%20')) || null;
+                                                    }
+                                                    var myvar = getURLParameter('reg');
+                                                    //alert(myvar);
+
+                                                    /*var roll=user[1];
+                                                     var div=user[0];
+                                                     var grno=user[2];
+                                                     var year=user[8];
+                                                     var mod=user[9];
+                                                     var flag=user[11];*/
+
+
+
+
+
+
+                                                    var app = angular.module("myApp", []);
+                                                    app.controller("mycon", function ($scope, $http) {
+                                                        var x = "check";
+                                                        var url = 'webresources/userauth/' + x;
+                                                        ////alert(url);
+                                                        $http.get(url).success(function (response) {
+                                                            ////alert(response);
+                                                            if (response === "True")
+                                                            {
+                                                                //alert("Authentic");
+                                                            }
+                                                            else
+                                                            {
+                                                                window.location = '/MiniProjectReg/index.html';
+                                                            }
+                                                        }).error(function (response) {
+                                                            //alert("Resource not found");
+                                                        });
+                                                        $scope.logout = function () {
+                                                            //alert("in logout");
+                                                            var url = 'webresources/userauth/' + "x" + "/" + "y" + "/" + "z";
+                                                            $http.get(url).success(function (response) {
+                                                                ////alert(response);
+                                                                if (response === "Logout")
+                                                                {
+                                                                    
+                                                                    window.location = '/MiniProjectReg/index.html';
+                                                                }
+                                                                else
+                                                                {
+                                                                    //alert("Could not Logout!");
+                                                                }
+                                                            }).error(function (response) {
+                                                                //alert("Resource not found");
+                                                            });
+                                                        };
+                                                        var guide;
+                                                        var url = 'webresources/showgroup/' + myvar;
+                                                        //alert(url);
+                                                        ////alert($scope.user);
+                                                        $http.get(url).success(function (response) {
+                                                            //alert("Gname:" + response);
+                                                            document.getElementById("lname").value = response;
+                                                            guide = response;
+                                                        }).error(function (response) {
+                                                            //alert("Resource not found");
+                                                        });
+
+
+                                                        $scope.getdiv = function () {
+
+                                                            var year;
+                                                            var e = document.getElementById("year");
+                                                            year = e.options[e.selectedIndex].value;
+                                                            //alert(year);
+
+
+                                                            var url2 = 'webresources/showgroup/' + year + '/' + guide;
+                                                            //alert(url2);
+                                                            $scope.orderByAttribute = '';
+                                                            $http.get(url2).
+                                                                    success(function (data, status, headers, config) {
+                                                                        //alert(data);
+                                                                        console.log(JSON.stringify(data));
+                                                                        $scope.groups = data;
+                                                                    }).
+                                                                    error(function (data, status, headers, config) {
+                                                                        //alert("resource not found");
+                                                                    });
+                                                        };
+
+                                                    });
+
+        </script>
+
+    </body>
+
+
+
+</html>
+

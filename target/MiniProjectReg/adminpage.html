@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html ng-app="admin" ng-controller="mycon">
+    <head>
+        <title>ADMIN PAGE</title>	
+        <link rel="stylesheet" type="text/css" href="global.css"/>
+        <meta name="viewport" content="width=device-width,initial-scale:1.0" />
+    </head>
+    <body>
+
+        <div id="header">
+            <div class="head"><a href="#">WELCOME ADMIN</a></div>
+        </div>	
+        <a class="mobile" href="#"></a>
+
+
+
+        <div id="container">
+            <div class="sidebar">
+                <ul id="nav">
+                    <li><input style="font-size: 15px; margin-left: 10px" type="button" ng-click="logout()" value="LOGOUT" /></li>
+                    <li><a href="updateadmin.html">UPDATE PASSWORD</a></li>
+                    <li><a href="adminpage.html">HOME</a></li>
+                    <li><a href="unreg.html">LIST OF UNREGISTERED STUDENTS</a></li>
+                    <li><a class="selected" href="allot.html">ALLOT GUIDES & DOMAINS</a></li>
+                    <li><a href="alloted.html">LIST OF ALLOTED GROUPS</a></li>
+                    <li><a href="title.html">LIST OF TITLES REGISTERED</a></li>
+                </ul>
+
+            </div>
+            <div class="content">
+
+                <h1>WELCOME ADMIN!</h1>
+
+
+            </div>
+        </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.5/angular.min.js"></script>
+        <script>
+                                var myapp = angular.module('admin', []);
+                                myapp.controller('mycon', function ($scope, $http) {
+                                    var x = "check";
+                                    var url = 'webresources/userauth/' + x;
+                                    //alert(url);
+                                    $http.get(url).success(function (response) {
+                                        //alert(response);
+                                        if (response === "True")
+                                        {
+                                            //alert("Authentic");
+                                        }
+                                        else
+                                        {
+                                            window.location = '/MiniProjectReg/index.html';
+                                        }
+                                    }).error(function (response) {
+                                        alert("Resource not found");
+                                    });
+                                    $scope.logout = function () {
+                                        //alert("in logout");
+                                        var url = 'webresources/userauth/' + "x" + "/" + "y" + "/" + "z";
+                                        $http.get(url).success(function (response) {
+                                            //alert(response);
+                                            if (response === "Logout")
+                                            {
+                                                window.location = '/MiniProjectReg/index.html';
+                                            }
+                                            else
+                                            {
+                                                alert("Could not Logout!");
+                                            }
+                                        }).error(function (response) {
+                                            alert("Resource not found");
+                                        });
+                                    };
+                                    
+                                });
+        </script>
+    </body>
+
+
+
+</html>
+

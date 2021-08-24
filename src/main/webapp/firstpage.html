@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="redirect" ng-controller="mycon">
+    <head>
+        <meta charset="UTF-8">
+        <title>Mini Project Portal</title>
+        <style type="text/css">
+            h1{
+                text-align: center;
+                padding-top: 50px;
+            }
+        </style>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <meta name="description" content="" />
+        <meta name="keywords" content="" />
+        <script src="js/jquery.min.js"></script>
+        <script src="js/skel.min.js"></script>
+        <script src="js/skel-layers.min.js"></script>
+        <script src="js/init.js"></script>
+        <noscript>
+        <link rel="stylesheet" href="css/skel.css" />
+        <link rel="stylesheet" href="css/style.css" />
+        <link rel="stylesheet" href="css/style-xlarge.css" />
+        </noscript>
+    </head>
+    <body class="landing">
+
+        <script
+            src="https://code.angularjs.org/1.4.3/angular.js">
+
+        </script>
+
+        <!-- Header -->
+        <header id="header">
+            <h1 style="text-align: center"><a href="index.html"><font color="white">Mini Project Portal</font></a></h1>
+            <nav id="nav">
+                <ul>
+                    <li><a href="About.html" >About</a></li>
+                    <li><a href="Update.html" onclick="location.href = this.href + '?reg=' + grno;
+                                    return false;">Update Password</a></li>
+                    <li ><input type="button" value="Logout" ng-click="logout()"></li>
+                </ul>
+            </nav>
+        </header>
+
+        <!-- Banner -->
+        <section id="banner">
+            <h2>Welcome!</h2>
+            <ul class="actions alt">
+                <li><input type="text" name="lname" id="lname" value="" disabled style="width:700px;font-size: 30px;text-align: center;"></li>
+            </ul>
+        </section>
+
+
+        <section id="one" class="wrapper style1 align-center">
+            <div class="container">
+                <header>
+                </header>
+                <div class="row 200%" >
+                    <section class="4u 12u$(small)">
+                        <i class="icon big rounded fa-pencil"></i>
+                        <p><input type="button" value = "Register" ng-click="reg()"></p>
+                    </section>
+                    <section class="4u 12u$(small)">
+                        <i class="icon big rounded fa-pencil"></i>
+                        <p><input type="button" value = "Title Registration" ng-click="title()"></p>
+                    </section>
+                    <section class="4u 12u$(small)">
+                        <i class="icon big rounded fa-user"></i>
+                        <p><input type="button" value = "View" ng-click="view()"></p>
+                    </section>
+                </div>
+            </div>
+        </section>
+
+        <footer id="footer">
+            <ul class="copyright">
+                <li>&copy; All rights reserved.</li>
+            </ul>
+        </footer>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.5/angular.min.js"></script>
+        <script>
+                                    function getURLParameter(name) {
+                                        return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [, ""])[1].replace(/\+/g, '%20')) || null;
+                                    }
+                                    var myvar = getURLParameter('record');
+                                    var user = myvar.split("_", 12);
+                                    var name = user[3] + " " + user[4] + " " + user[5];
+                                    document.getElementById('lname').value = name;
+                                    var roll = user[1];
+                                    var div = user[0];
+                                    var grno = user[2];
+                                    var year = user[8];
+                                    var mod = user[9];
+                                    var flag = user[11];
+        </script>
+        <script>
+                    var app = angular.module('redirect', []);
+                    app.controller('mycon', function ($scope, $http, $rootScope) {
+                        var x = "check";
+                        var url = 'webresources/userauth/' + x;
+                        $http.get(url).success(function (response) {
+                            if (response === "True")
+                            {
+                 
+                            }
+                            else
+                            {
+                                window.location = '/MiniProjectReg/index.html';
+                            }
+                        }).error(function (response) {
+                            //alert("Resource not found");
+                        });
+                        $scope.logout = function () {
+                            ////alert("in logout");
+                            var url = 'webresources/userauth/' + "x" + "/" + "y" + "/" + "z";
+                            $http.get(url).success(function (response) {
+                                ////alert(response);
+                                if (response === "Logout")
+                                {
+                                    //$rootScope.v = 0;
+                                    window.location = '/MiniProjectReg/index.html';
+                                }
+                                else
+                                {
+                                    alert("Could not Logout!");
+                                }
+                            }).error(function (response) {
+                                //alert("Resource not found");
+                            });
+                        };
+                        $scope.reg = function () {
+                            if (flag == 0)
+                                window.location = '/MiniProjectReg/Register.html?reg=' + div + "/" + year + "/" + mod + "/" + grno + "/" + name + "/" + roll;
+                            else
+                                alert("You have already registered.");
+                        };
+                        $scope.view = function () {
+                            if (flag !== 0) {
+                                var url = 'webresources/View/' + grno;
+                                $http.get(url).success(function (response) {
+                                    if (response === "false")
+                                    {
+                                        alert("Not registered.");
+                                    }
+                                    else
+                                    {
+                                        //alert("Success");
+                                        window.location = '/MiniProjectReg/View.html?record=' + response;
+                                    }
+                                }).error(function (response) {
+                                    //alert("Resource not found");
+                                });
+                            } else
+                                alert("You are not registered yet.");
+                        };
+                        $scope.title = function () {
+                            if(flag==1)
+                                alert("Please wait for the Guide to be Alotted!");
+                            else if (flag == 2)
+                                window.location = '/MiniProjectReg/TitleReg.html?reg=' + grno;
+                            else if (flag == 3)
+                                alert("Title Registration already Complete!");
+                            else
+                                alert("Complete your Group Registration First!");
+                        };
+
+                    });
+        </script>
+    </body>
+</html>

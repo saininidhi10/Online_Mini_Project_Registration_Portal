@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html ng-app="myApp" ng-controller="mycon">
+    <head>
+        <title>GUIDE PAGE</title>	
+        <link rel="stylesheet" type="text/css" href="global2.css"/>
+        <meta name="viewport" content="width=device-width,initial-scale:1.0" />
+    </head>
+    <body>
+        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script><script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+        <div id="header">
+            <div class="head"><a href="#">WELCOME &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></div>
+
+            <input type="text" name="lname" id="lname" value="" disabled style="width:600px;font-size: 30px;margin-top: 13px;background-color: #0266C8; color: white;text-align:left;border: none;"/>
+
+        </div>
+
+
+
+
+        <div class="content">
+
+            <div id="box">
+
+                <div class="box-top">GROUPS<input style="font-size: 15px; margin-left: 10px" type="button" ng-click="logout()" value="LOGOUT" /></div>
+                <div class="box-panel">
+                    <div align="center">
+                        <input type="password" placeholder="Current Password" ng-model="pass" style="background-color: white;width: 500px;color: black;">
+                        <br>
+                        <input type="password" placeholder="Re-Enter Current Password" ng-model="repass" style="background-color: white;width: 500px;color: black;">
+                        <br>
+                        <input type="password" placeholder="New Password" ng-model="newpass" style="background-color: white;width: 500px;color: black;">
+                        <br><br><input type="button" class="button" value="Update" ng-click="update()">
+                    </div>
+
+                </div>
+            </div>
+
+
+        </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.5/angular.min.js"></script>
+        <script>
+                                    var app = angular.module("myApp", []);
+                                    app.controller("mycon", function ($scope, $http) {
+
+                                        function getURLParameter(name) {
+                                            return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [, ""])[1].replace(/\+/g, '%20')) || null;
+                                        }
+                                        var myvar = getURLParameter('reg');
+                                        var guide;
+                                        var url = 'webresources/showgroup/' + myvar;
+                                        //alert(url);
+                                        ////alert($scope.user);
+                                        $http.get(url).success(function (response) {
+                                            //alert("Gname:" + response);
+                                            document.getElementById("lname").value = response;
+                                            guide = response;
+                                        }).error(function (response) {
+                                            //alert("Resource not found");
+                                        });
+
+                                        var x = "check";
+                                        var url = 'webresources/userauth/' + x;
+                                        ////alert(url);
+                                        $http.get(url).success(function (response) {
+                                            ////alert(response);
+                                            if (response === "True")
+                                            {
+                                                //alert("Authentic");
+                                            }
+                                            else
+                                            {
+                                                window.location = '/MiniProjectReg/index.html';
+                                            }
+                                        }).error(function (response) {
+                                            //alert("Resource not found");
+                                        });
+                                        $scope.logout = function () {
+                                            //alert("in logout");
+                                            var url = 'webresources/userauth/' + "x" + "/" + "y" + "/" + "z";
+                                            $http.get(url).success(function (response) {
+                                                ////alert(response);
+                                                if (response === "Logout")
+                                                {
+
+                                                    window.location = '/MiniProjectReg/index.html';
+                                                }
+                                                else
+                                                {
+                                                    //alert("Could not Logout!");
+                                                }
+                                            }).error(function (response) {
+                                                //alert("Resource not found");
+                                            });
+                                        };
+                                        $scope.update = function () {
+                                            //alert("in logout");
+                                            alert(myvar);
+                                            var url = 'webresources/updateguide/' + $scope.pass + '/' + $scope.newpass + '/' + myvar;
+                                            alert(url);
+                                            $http.get(url).success(function (response) {
+                                                if (response === "false")
+                                                {
+                                                    alert("Enter Correct Password!");
+                                                }
+                                                else
+                                                {
+                                                    alert("Password Updated Successfully!");
+                                                    window.location = '/MiniProjectReg/guidepage.html?reg=' + response;
+                                                }
+                                            }).error(function (response) {
+                                                //alert("Resource not found");
+                                            });
+                                        };
+
+
+                                    });
+
+        </script>
+
+    </body>
+
+
+
+</html>
+
